@@ -1,0 +1,20 @@
+package me.hhac.greetings.websocket.controller;
+
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
+
+import me.hhac.greetings.websocket.models.Greeting;
+import me.hhac.greetings.websocket.models.HelloMessage;
+
+@RestController
+public class GreetingController {
+	
+	  @MessageMapping("/hello")
+	  @SendTo("/topic/greetings")
+	  public Greeting greeting(HelloMessage message) throws Exception {
+	    Thread.sleep(1000); // simulated delay
+	    return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+	  }
+}
